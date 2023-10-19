@@ -4,6 +4,10 @@
   font-family: "Rubik", sans-serif;
   background-color: #eef0f4;
 }
+body,
+html {
+  user-select: none;
+}
 
 .container {
   display: flex;
