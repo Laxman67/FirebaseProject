@@ -4,6 +4,7 @@ import {
   ref,
   push,
   onValue,
+  remove,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 const appSetting = {
@@ -27,11 +28,20 @@ addBtnEl.addEventListener("click", () => {
 });
 
 onValue(shoppingListInDB, (snapshot) => {
-  const itemArray = Object.values(snapshot.val());
+  if (snapshot.exists()) {
+    const itemArray = Object.entries(snapshot.val());
 
-  clearShoppingListEl();
-  for (let index = 0; index < itemArray.length; index++) {
-    appendItem(itemArray[index]);
+    clearShoppingListEl();
+
+    for (let index = 0; index < itemArray.length; index++) {
+      let currentItem = itemArray[index];
+      const currentItemID = currentItem[0];
+      const currentItemValue = currentItem[1];
+
+      appendItem(currentItem);
+    }
+  } else {
+    shoppingListEl.innerHTML = "No item here .... Yet";
   }
 });
 
@@ -42,6 +52,16 @@ function clearInputFieldEl() {
   inputFieldEl.value = "";
 }
 
-function appendItem(itemValue) {
-  shoppingListEl.innerHTML += `<li>${itemValue}</li>`;
+function appendItem(item) {
+  let itemID = item[0];
+  let itemValue = item[1];
+
+  const newEl = document.createElement("li");
+  newEl.textContent = itemValue;
+  shoppingListEl.append(newEl);
+
+  newEl.addEventListener("dblclick", () => {
+    let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`);
+    remove(exactLocationOfItemInDB);
+  });
 }

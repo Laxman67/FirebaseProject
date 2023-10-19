@@ -43,6 +43,9 @@ button {
   text-align: center;
   cursor: pointer;
 }
+button:hover {
+  background-color: #432000;
+}
 
 ul {
   padding: 0;
@@ -61,4 +64,9 @@ ul li {
   flex-grow: 1;
   border-radius: 8px;
   text-align: center;
+}
+
+ul li:hover {
+  background-color: #ffecc7;
+  cursor: pointer;
 }
