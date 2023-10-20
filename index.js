@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+
 import {
   getDatabase,
   ref,
@@ -20,6 +21,7 @@ const addBtnEl = document.getElementById("add-button");
 const inputFieldEl = document.getElementById("input-field");
 const shoppingListEl = document.getElementById("shopping-list");
 
+// Adding item to Databse
 addBtnEl.addEventListener("click", () => {
   let inputValue = inputFieldEl.value;
   push(shoppingListInDB, inputValue);
@@ -27,6 +29,11 @@ addBtnEl.addEventListener("click", () => {
   clearInputFieldEl();
 });
 
+function clearInputFieldEl() {
+  inputFieldEl.value = "";
+}
+
+// *********************************************
 onValue(shoppingListInDB, (snapshot) => {
   if (snapshot.exists()) {
     const itemArray = Object.entries(snapshot.val());
@@ -47,9 +54,6 @@ onValue(shoppingListInDB, (snapshot) => {
 
 function clearShoppingListEl() {
   shoppingListEl.innerHTML = "";
-}
-function clearInputFieldEl() {
-  inputFieldEl.value = "";
 }
 
 function appendItem(item) {
